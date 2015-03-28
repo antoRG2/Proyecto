@@ -1,0 +1,51 @@
+.displayData
+{
+margin-top:30px;
+margin-left:auto;
+margin-right:auto;
+width: 1000px;
+height: 750px;
+background-color:#FFFFFF;
+border:1px solid black;
+opacity:0.88;
+filter:alpha(opacity=88); /* For IE8 and earlier */
+vertical-align: middle;
+border-color: #FFFFFF;
+font-size:11px;
+font-family:Arial;
+font-weight:bold;
+}
+
+.displayData td:first-child
+{ 
+text-align: right;
+}
+
+.displayData table
+{ 
+margin-left: 150px;
+margin-right: auto;
+}
+
+
+textarea select input option text
+{
+font-size:11px;
+font-family:Arial;
+font-weight:bold;
+}
+
+.title
+{
+border-bottom: 2px solid #6E3493 !important; 
+height: 50px;
+}
+
+.controlbuttons
+{
+	display:inline;
+}
+
+.FRMItems{
+	
+}

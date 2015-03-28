@@ -1,0 +1,100 @@
+.displayData
+{
+margin-top:30px;
+margin-left:auto;
+margin-right:auto;
+width: 1000px;
+height: 530px;
+background-color:#FFFFFF;
+border:1px solid black;
+opacity:0.88;
+filter:alpha(opacity=88); /* For IE8 and earlier */
+vertical-align: middle;
+border-color: #FFFFFF;
+font-size:11px;
+font-family:Arial;
+font-weight:bold;
+}
+
+.displayData td:first-child
+{ 
+text-align: right;
+}
+
+.displayData table
+{ 
+margin-left: 150px;
+margin-right: auto;
+}
+
+
+textarea select input option text
+{
+font-size:11px;
+font-family:Arial;
+font-weight:bold;
+}
+
+#btnGuardar{	
+/*margin-top: 250px;*/
+vertical-align: middle;
+}
+
+#drop{	
+	width: 265px;
+	height:255px;
+	background-color: #64A8D1;
+	border-color: #000000;
+	float: right;
+}
+
+#drop ol 
+{ 
+ 	margin: 0; 
+ 	padding: 1em 0 1em 3em;
+ 	height:190px;
+	overflow:auto;
+}
+
+#draggable{
+	width: 265px;
+	height:255px;
+	background-color: #63DD8D;
+	border-color: #000000;
+	float: left;	
+	overflow:auto;
+}
+
+.dragDropContainer{	
+	width: 650px;
+	margin-left:auto;
+	margin-right:auto;
+	margin-top: 25px;
+}
+
+h3
+{
+text-align: center;
+color: #001494;
+}
+
+.title
+{
+border-bottom: 2px solid #6E3493 !important; 
+height: 50px;
+}
+
+.controlbuttonsDiv
+{
+height: 50px;
+width: 200px;
+display: inline-block;
+margin: 1% 30% 50% 40%;
+	
+}
+
+.controlbuttons{
+	
+display:inline;
+
+}

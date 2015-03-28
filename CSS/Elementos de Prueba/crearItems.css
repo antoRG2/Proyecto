@@ -1,0 +1,53 @@
+.displayData
+{
+margin-top:30px;
+margin-left:auto;
+margin-right:auto;
+width: 1000px;
+height: 495px;
+background-color:#FFFFFF;
+border:1px solid black;
+opacity:0.88;
+filter:alpha(opacity=88); /* For IE8 and earlier */
+vertical-align: middle;
+border-color: #FFFFFF;
+font-size:11px;
+font-family:Arial;
+font-weight:bold;
+}
+
+.displayData td:first-child
+{ 
+text-align: right;
+}
+
+.displayData table
+{ 
+margin-left: 150px;
+margin-right: auto;
+}
+
+.title
+{
+border-bottom: 2px solid #6E3493 !important; 
+height: 50px;
+}
+
+
+.displayData nombre 
+{
+font-size:11px;
+font-family:Arial;
+font-weight:bold;
+width: 200px;
+}
+
+.controlbuttons
+{
+	display:inline;
+}
+
+.controlbuttonsDiv
+{
+	display:inline-block
+}
