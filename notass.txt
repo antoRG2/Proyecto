@@ -1,0 +1,24 @@
+***tbl_usuarios
+    Posibles valores al campo tipo
+        -> 1 Super administrador
+        -> 2 Profesor / Administrador
+        -> 3  Estudiante / Usuario normal
+
+
+**En Items.
+
+    Posibles valores al campo tipo
+        -> 1 Selección Única
+        -> 2 Drag / drop
+
+        Posibles valores al campo tipo Enunciado
+        -> 1 Imagenes
+        -> 2 Texto
+        -> 3 Audio
+
+**En respuestas
+    Posibles valores al campo tipo
+        -> 1 Imagenes
+        -> 2 Texto
+        -> 3 Audio
+
