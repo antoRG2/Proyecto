@@ -3,7 +3,8 @@
 	{
 		protected $mysqli_host = "localhost";
 		protected $mysqli_user = "root";
-		protected $mysqli_pass = "root";
+                protected $mysqli_pass = "root"; #on HOME
+                #protected $mysqli_pass = "MYSQL0nly"; # TEST SITE
 		protected $mysqli_dbas = "sysdatabase";
 		private $mysqli;
 		
