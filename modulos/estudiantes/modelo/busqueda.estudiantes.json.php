@@ -8,7 +8,7 @@ $objEstudiante -> _Query();
 $array = array();
 for($i = 0; $i < $objEstudiante -> get_Contador(); $i++)
 {
-	$array[] = array('id' => $objEstudiante -> get_ID($i),'nombre' => $objEstudiante -> get_Nombre($i,"INPUT"), 'cedula' =>$objEstudiante -> get_Cedula($i),'seccion' =>$objEstudiante -> get_Seccion($i));
+	$array[] = array('nombre' => $objEstudiante -> get_Nombre($i,"INPUT"), 'cedula' =>$objEstudiante -> get_Cedula($i),'seccion' =>$objEstudiante -> get_Seccion($i));
 }
 echo json_encode($array);
 ?>	

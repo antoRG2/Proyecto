@@ -31,17 +31,17 @@ class Respuesta {
 	public function _QUERY()
 	{
 		$SQL = "Select
-				  sysdatabase.tbl_respuestas.id,
-				  sysdatabase.tbl_respuestas.item_id,
-				  sysdatabase.tbl_respuestas.acierto,
-				  sysdatabase.tbl_respuestas.tipo,
-				  sysdatabase.tbl_respuestas.descripcion
+				  SysDataBase.Tbl_respuestas.id,
+				  SysDataBase.Tbl_respuestas.item_id,
+				  SysDataBase.Tbl_respuestas.acierto,
+				  SysDataBase.Tbl_respuestas.tipo,
+				  SysDataBase.Tbl_respuestas.descripcion
 				From
-				  sysdatabase.tbl_respuestas
+				  SysDataBase.Tbl_respuestas
 				Where
-				  sysdatabase.tbl_respuestas.id {$this -> id} And
-				  sysdatabase.tbl_respuestas.item_id {$this -> item_id} And
-				  sysdatabase.tbl_respuestas.acierto {$this -> acierto};";
+				  SysDataBase.Tbl_respuestas.id {$this -> id} And
+				  SysDataBase.Tbl_respuestas.item_id {$this -> item_id} And
+				  SysDataBase.Tbl_respuestas.acierto {$this -> acierto};";
 						
 		$this -> _LIMPIAR();
 		$result = MYSQLI_query($this -> dbh, $SQL);
@@ -97,7 +97,7 @@ class Respuesta {
 	}
 		
 	public function get_Descripcion($int, $FORMAT = "NORMAL") {
-		if ($id < $this -> contador) {
+		if ($int < $this -> contador) {
 			switch($FORMAT) {
 				case "HTML" :
 					return htmlentities($this -> Descripcion[$int], (int)$this -> flag, "Windows-1252", true);
@@ -136,7 +136,7 @@ class Respuesta {
 	
 	public function _ELiminar_Respuesta($ID)
 	{
-		$SQL = "DELETE FROM sysdatabase.tbl_respuestas WHERE id = $ID;";
+		$SQL = "DELETE FROM SysDataBase.Tbl_respuestas WHERE id = $ID;";
 		$result = mysqli_query($this->dbh, $SQL);
 		if($result)
 			return 1;

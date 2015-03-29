@@ -38,14 +38,13 @@ class Logeo {
                           Where
                             sysdatabase.tbl_usuarios.cedula {$this -> cedula} And
                             sysdatabase.tbl_usuarios.clave {$this -> clave}";
-                          
 		$this -> _LIMPIAR();
 		$result = MYSQLI_query($this -> dbh, $SQL);
 
 		while ($row = mysqli_fetch_array($result, MYSQLI_NUM)) {
-			$this -> Cedula[] = $row[0];
-			$this -> Clave[] = $row[1];
-			$this -> ID[] = $row[2];
+			$this -> Cedula[] = $row[1];
+			$this -> Clave[] = $row[2];
+			$this -> ID[] = $row[0];
                         $this -> Tipo[] = $row[3];
 		}
 

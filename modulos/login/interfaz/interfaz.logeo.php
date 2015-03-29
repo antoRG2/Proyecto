@@ -45,8 +45,11 @@
 					async:false
 				});
 				request.done(function(msg){
-					if($.trim(msg) == 1){
+					if($.trim(msg) == 2 || $.trim(msg) == 1){
 						location.href = '../../interfaz.inicio.php';
+					}
+                                        if($.trim(msg) == 3){
+						location.href = '../../interfaz.inicio.estudiante.php';
 					}
 					else{
 						alert("Usuario o contraseña no validos.");

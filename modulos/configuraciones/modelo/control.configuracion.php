@@ -25,7 +25,7 @@ else{
 	if(isset($editar))
 		$result = $object -> GUARDAR_EDITAR($id,$nombre, $descripcion, $pub,$dataJSON);
 	else
-		$result = $object -> GUARDAR($nombre, $descripcion, $usuario_id,$pub,$dataJSON);
+		$result = $object -> GUARDAR($nombre, $descripcion, $usuario,$pub,$dataJSON); // Se debe de utilizar la cédula del profesor
 }
 if($result)
 	echo "1";

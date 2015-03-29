@@ -9,7 +9,7 @@ foreach ($_POST as $key => $value) {
 
 session_name('SS');
 session_start();
-$usuario = $_SESSION['user'];
+$usuario = $_SESSION['user'];//Cédula del Usuario.
 $pass = $_SESSION['pass'];
 $usuario_id = $_SESSION['userID'];
 $tipoUsuario = $_SESSION['tipoUsuario'];

@@ -53,10 +53,10 @@
 						<tr>
 							<td><?=$objConf -> get_Nombre($i,"HTML")?></td>
 							<td><?=$objConf -> get_Descripcion($i,"HTML")?></td>
-							<td><?php if($objConf -> get_UsuarioID($i) !== $usuario_id){?>
+							<td><?php if($objConf -> get_UsuarioID($i) == $usuario){?>
 							<a href="interfaz.modificar.php?ConfID=<?=$objConf -> get_ID($i)?>" title="Editar Configuracion"><img src="../../../CSS/img/Editar.png" /></a></td>
 							<?php }else{?> No se puede modidicar la configuraci&oacute;n <?php }?>
-							<td><?php if($objConf -> get_UsuarioID($i) !== $usuario_id){?>
+							<td><?php if($objConf -> get_UsuarioID($i) == $usuario){?>
 							<a href="javascript:Eliminar(<?=$objConf -> get_ID($i)?>);" title="Eliminar Configuracion"><img src="../../../CSS/img/Eliminar.png" /></a></td>
 							<?php }else{?> No se puede eliminar la configuraci&oacute;n <?php }?>
 							</tr>

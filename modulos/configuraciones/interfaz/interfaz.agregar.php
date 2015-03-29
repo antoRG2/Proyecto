@@ -55,7 +55,7 @@ $objArea -> _QUERY();
 				$("#btnGuardar").click(function(){
 					var nom = $('#nombre').val();
 					var des = $('#descripcion').val();
-					var pub = (document.getElementById.("publica").checked)?1:0; 
+					var pub = (document.getElementById("publica").checked)?1:0; 
 					var bandera = true;
 					var error = '';
 					if($.trim(nom) == '' || nom.length == 0){

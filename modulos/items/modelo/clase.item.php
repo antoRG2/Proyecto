@@ -99,8 +99,8 @@ class Item {
 				        INNER JOIN
 				    sysdatabase.tbl_areaconocimiento ON sysdatabase.tbl_item.areaconocimiento_id = sysdatabase.tbl_areaconocimiento.id
 				WHERE
-				    (item.id NOT IN (SELECT 
-				            sysdatabase.tbl_item.item_id
+				    (sysdatabase.tbl_item.id NOT IN (SELECT 
+				            sysdatabase.tbl_configuracion_item.item_id
 				        FROM
 				            sysdatabase.tbl_configuracion_item
 				        WHERE
@@ -115,7 +115,7 @@ class Item {
 			$SQL .= "ORDER BY sysdatabase.tbl_item.dificultad;";
 		if($ORDER_FILTER == 2)
 			$SQL .= "ORDER BY sysdatabase.tbl_item.areaconocimiento_id;";
-						
+		
 		$this -> _LIMPIAR();
 		$result = MYSQLI_query($this -> dbh, $SQL);
 
@@ -260,7 +260,7 @@ class Item {
 	}
 	
 	public function get_Descripcion($int, $FORMAT = "NORMAL") {
-		if ($id < $this -> contador) {
+		if ($int < $this -> contador) {
 			switch($FORMAT) {
 				case "HTML" :
 					return htmlentities($this -> Descripcion[$int], (int)$this -> flag, "Windows-1252", true);
@@ -278,7 +278,7 @@ class Item {
 	}
 	
 	public function get_AreaConocimiento($int, $FORMAT = "NORMAL") {
-		if ($id < $this -> contador) {
+		if ($int < $this -> contador) {
 			switch($FORMAT) {
 				case "HTML" :
 					return htmlentities($this -> areaconocimiento[$int], (int)$this -> flag, "Windows-1252", true);

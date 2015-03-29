@@ -7,9 +7,11 @@ class Configuracion {
 
 	//Filtros
 	protected $id = "> 0 ";
-	protected $usuarioID = ">= 0";
+	protected $profesorC = "like '%%'";
 	protected $itemID = ">= 0";
-	
+        protected $cedula = "like %%"; // Cedula del estudiante
+        protected $finalizada = ">= 0";
+         
 	//Atributos propios de la clase
 	protected $ID = array();
 	protected $Nombre = array();
@@ -22,12 +24,13 @@ class Configuracion {
 	protected $itemscontador = 0;
 	protected $arrayJSON = array();
 	protected $arrayJSONR = array(); // ARRAY para las respuestas de cada item
+        protected $EstudiantesConfID = array();
 	
 	/*
 	 * Constructor de la clase el cual se encarga de establecer la conección con la base de datos directamente
 	 */
 	function __construct() {
-		require_once  '../../../DB/class.DB.php';
+		require_once $_SERVER['DOCUMENT_ROOT'] . '/Sistema/DB/class.DB.php';
 		$this -> obj_bconn = new DBConn();
 		$this -> dbh = $this -> obj_bconn -> get_conn();
 	}
@@ -35,21 +38,21 @@ class Configuracion {
 	public function _QUERY()
 	{
 		$SQL = "
-		Select
+                    Select
 			  sysdatabase.tbl_configuraciones.id,
 			  sysdatabase.tbl_configuraciones.nombre,
 			  sysdatabase.tbl_configuraciones.descripcion,
 			  sysdatabase.tbl_configuraciones.publico,
-			  sysdatabase.tbl_profesores_configuraciones.profesor_id
+			  sysdatabase. tbl_profesores_configuraciones.profesor_id
 			From
 			  sysdatabase.tbl_configuraciones Inner Join
-			  sysdatabase.tbl_profesores_configuraciones On sysdatabase.tbl_configuraciones.id =
-			    sysdatabase.tbl_profesores_configuraciones.configuracion_id
+			  sysdatabase. tbl_profesores_configuraciones On sysdatabase.tbl_configuraciones.id =
+			    sysdatabase. tbl_profesores_configuraciones.configuracion_id
 			Where
 			  sysdatabase.tbl_configuraciones.id {$this -> id} And
-			  sysdatabase.tbl_profesores_configuraciones.profesor_id {$this -> usuarioID};";
+			  sysdatabase. tbl_profesores_configuraciones.profesor_id {$this -> profesorC};";
 			  			
-		$this -> _LIMPIAR();
+                $this -> _LIMPIAR();
 		$result = MYSQLI_query($this -> dbh, $SQL);
 
 		while ($row = mysqli_fetch_array($result, MYSQLI_NUM)) {
@@ -112,6 +115,41 @@ class Configuracion {
 		mysqli_free_result($result);
 		
 	}
+        
+        public function _Query_Estudiante_Profesor()
+        {
+            $SQL = "Select
+                tbl_estudiantes_configuraciones.id,
+                tbl_configuraciones.id,
+                tbl_configuraciones.nombre,
+                tbl_configuraciones.descripcion,
+                tbl_configuraciones.publico
+              From
+                tbl_estudiantes_configuraciones Inner Join
+                tbl_configuraciones On tbl_estudiantes_configuraciones.configuracion_id =
+                  tbl_configuraciones.id
+              Where
+                tbl_estudiantes_configuraciones.profesor_id {$this  -> profesorC} And
+                tbl_estudiantes_configuraciones.estudiantes_id {$this -> cedula} And
+                tbl_estudiantes_configuraciones.finalizada {$this -> finalizada}
+              Order By
+                tbl_estudiantes_configuraciones.posicion;";
+
+            $this -> _LIMPIAR();
+            $result = MYSQLI_query($this -> dbh, $SQL);
+
+            while ($row = mysqli_fetch_array($result, MYSQLI_NUM)) {
+                    $this -> EstudiantesConfID = $row[0];
+                    $this ->ID[] = $row[1];
+                    $this ->Nombre[] =  $row[2];
+                    $this ->Descripcion[] =  $row[3];
+                    $this -> Publico[] = $row[4];
+            }
+
+            $this -> contador = count($this -> ID);
+            mysqli_free_result($result);
+                
+        }
 	
 	public function _QUERYRESP()
 	{
@@ -134,6 +172,36 @@ class Configuracion {
 		mysqli_free_result($result);
 		
 	}
+        
+        public function _QUERYEstudiantes()
+	{
+		$SQL = "
+                    Select
+                        tbl_configuraciones.id,
+                        tbl_configuraciones.nombre,
+                        tbl_configuraciones.descripcion,
+                        tbl_configuraciones.publico
+                      From
+                        tbl_configuraciones Inner Join
+                        tbl_estudiantes_configuraciones
+                          On tbl_estudiantes_configuraciones.configuracion_id = tbl_configuraciones.id
+                      Where
+                        tbl_estudiantes_configuraciones.estudiantes_id {$this -> cedula}";
+			  			
+		$this -> _LIMPIAR();
+		$result = MYSQLI_query($this -> dbh, $SQL);
+
+		while ($row = mysqli_fetch_array($result, MYSQLI_NUM)) {
+			$this ->ID[] = $row[0];
+			$this ->Nombre[] =  $row[1];
+			$this ->Descripcion[] =  $row[2];
+			$this -> Publico[] = $row[3];
+			$this -> UsuarioID[] = $row[4];
+		}
+
+		$this -> contador = count($this -> ID);
+		mysqli_free_result($result);
+	}
 	
 	private function _LIMPIAR() {
 		$this ->ID = array();
@@ -146,6 +214,7 @@ class Configuracion {
 		$this -> arrayJSON = array();
 		$this -> Publico = array();
 		$this -> UsuarioID = array();
+                $this -> EstudiantesConfID = array();
 	}
 	
 
@@ -216,7 +285,7 @@ class Configuracion {
 	}
 	
 	public function get_Descripcion($int, $FORMAT = "NORMAL") {
-		if ($id < $this -> contador) {
+		if ($int < $this -> contador) {
 			switch($FORMAT) {
 				case "HTML" :
 					return htmlentities($this -> Descripcion[$int], (int)$this -> flag, "Windows-1252", true);
@@ -226,6 +295,11 @@ class Configuracion {
 					return $this -> Descripcion[$int];
 			}
 		}
+	}
+        
+        public function get_EstudianteConfID($int){
+		if($int < $this -> contador)
+			return $this -> EstudiantesConfID[$int];
 	}
 				
 	//SET DATA
@@ -245,15 +319,31 @@ class Configuracion {
 		} else {$this -> itemID = "> 0";
 		}
 	}
-	
-	public function set_usuarioID($int) {
-		if (is_numeric($int) && $int > 0) {
-			$this -> usuarioID = "= $int";
-		} else {$this -> usuarioID = "> 0";
+        
+        public function set_Finalizada($int) {
+		if (is_numeric($int)) {
+			$this -> finalizada = "= $int";
+		} else {$this -> finalizada = ">= 0";
 		}
 	}
+	
+	public function set_profesorC($varchar) {
+            if ($varchar == "") {
+                $this->profesorC = "like '%%'";
+            } else {
+                $this->profesorC = "like '%$varchar%'";
+            }
+	}
+        
+        public function set_Cedula($varchar) {
+        if ($varchar == "") {
+            $this->cedula = "like '%%'";
+        } else {
+            $this->cedula = "like '%$varchar%'";
+        }
+    }
 			
-	public function GUARDAR($nombre, $descripcion, $usuario,$pub,$dataJSON){
+	public function GUARDAR($nombre, $descripcion, $cedulaProfesor,$pub,$dataJSON){
 		$nombre = $this->_FREE($nombre);
 		$descripcion = $this->_FREE($descripcion);
 				
@@ -261,14 +351,16 @@ class Configuracion {
 		$SQL .= "VALUES('$nombre','$descripcion', $pub); ";
 		
 		$result = mysqli_query($this->dbh, $SQL);
+                $configuracionID = mysqli_insert_id($this->dbh);
 		if($result)
 		{
 			$id = mysqli_insert_id($this->dbh);
-			$SQL = "INSERT INTO sysdatabase.tbl_profesores_configuraciones(profesor_id,configuracion_id) ";
-			$SQL .= "VALUES($usuario,$id); ";
+			$SQL = "INSERT INTO sysdatabase. tbl_profesores_configuraciones(profesor_id,configuracion_id) ";
+                        $SQL .= "VALUES('{$cedulaProfesor}',$id); ";
+
 			$result2 = mysqli_query($this->dbh, $SQL);
 			if($result2)
-				return $this -> GUARDAR_ITEMS(mysqli_insert_id($this->dbh),$dataJSON);
+				return $this -> GUARDAR_ITEMS($configuracionID,$dataJSON);
 			else 
 				return FALSE;
 		}
@@ -286,7 +378,7 @@ class Configuracion {
 		
 		$SQL = "INSERT INTO sysdatabase.tbl_configuracion_item(configuracion_id,item_id,posicion) ";
 		$SQL .= "VALUES $values;";
-		
+
 		$result = mysqli_query($this->dbh, $SQL);
 		if($result)
 			RETURN TRUE;

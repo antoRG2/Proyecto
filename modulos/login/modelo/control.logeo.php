@@ -29,7 +29,7 @@ if ($obj -> get_Contador() > 0) {
 	$_SESSION['pass'] = $clave;
 	$_SESSION['userID'] = $obj -> get_ID(0);
         $_SESSION['tipoUsuario'] = $obj -> get_Tipo(0);
-	echo "1";
+	echo $obj -> get_Tipo(0);
 	exit ;
 } else {
 	echo "0";

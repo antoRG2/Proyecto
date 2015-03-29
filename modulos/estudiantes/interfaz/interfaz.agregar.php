@@ -19,7 +19,8 @@
                         
 	 		$("#buscar").click(function(){
 	 			$('#estudiantes').empty();
-	 			
+	 			$('#cedula').attr('readonly', false);
+                                $("#div_cedula_error").hide();
 	 			var request = jQuery.ajax({
 					type: 'POST',
 					url: '../modelo/busqueda.estudiantes.json.php',  //file name
@@ -37,27 +38,61 @@
 				}
                                 else{
 				for(i = 0; i < json.length; i++){
-					data = json[i]['id']+','+json[i]['cedula']+','+json[i]['nombre']+','+json[i]['seccion'];
+					data = '1,'+json[i]['cedula']+','+json[i]['nombre']+','+json[i]['seccion'];
 					options += "<option value='"+data+"'>"+ json[i]['cedula'] +": "+json[i]['nombre']+"</option>";
 				}
 				data = '0,,,';
 					options += "<option value='"+data+"'>Nuevo</option>";
                                 }
 				$('#estudiantes').append(options);
+                                $('#validador').val(1);
+	 		});
+                        
+                        $("#cedula").keyup(function(){	 			
+	 			var request = jQuery.ajax({
+					type: 'POST',
+					url: '../modelo/busqueda.usuarios.php',  //file name
+					data: "cedula=" + $(this).val(),//data
+					async:false
+				});
+				
+				request.done(function(msg){
+                                    if(msg == 0)
+                                    {
+                                        $('#validador').val(1);
+                                        $("#div_cedula_error").hide();  
+                                    }
+                                    else{
+                                        $('#validador').val(0);
+                                        $("#div_cedula_error").show();                                       
+                                    }
+				});
 	 		});
 	 		
 	 		$('#estudiantes').change(function(){
 	 			var data= $(this).val().split(',');
-	 			$('#id').val(data[0]);
-	 			$('#cedula').val(data[1]);
-	 			$('#nombre').val(data[2]);
-	 			$('#seccion').val(data[3]);
+                                $("#div_cedula_error").hide();
+                                if(data[0] != 0)
+                                {
+                                    $('#btnModificar').show();
+                                    $('#cedula').attr('readonly', true);
+                                }else{
+                                     $('#btnModificar').hide();
+                                     $('#cedula').attr('readonly', false);
+                                }
+                                $('#existente').val(data[0]);
+                                $('#cedula').val(data[1]);
+                                $('#nombre').val(data[2]);
+                                $('#seccion').val(data[3]);
                                 $('#nombre_org').val(data[2]);
+                                $('#validador').val(1);
 	 		});
 	 		
 	 		$("#btnGuardar").click(function(){
+                                if($('#validador').val() == 1)
+                                {
                                 $('#soloModificar').val(0);
-                                var id= $('#id').val();
+                                var id= $('#existente').val();
 	 			var nom = $('#nombre').val();
                                 var nomORG = $('#nombre_org').val();
 				var ced = $('#cedula').val();
@@ -117,12 +152,15 @@
 			 			$('#seccion').val("");
 					}
 				});
-				
+                                //Oculta el botón de modificar en caso de que no se haya
+                                // seleccionado ningún estudiante o que sea un registro nuevo.
+                                $('#btnModificar').hide();
+                            }
 	 		});
                         
                         $("#btnModificar").click(function(){
                                 $('#soloModificar').val(1);
-                                var id= $('#id').val();
+                                var id= $('#existente').val();
 	 			var nom = $('#nombre').val();
                                 var nomORG = $('#nombre_org').val();
 				var ced = $('#cedula').val();
@@ -168,22 +206,18 @@
 					if(msg == 1)
 					{
 						alert("Éxito al guardar");
-						$('#id').val(0);
+						$('#existente').val(0);
 			 			$('#cedula').val("");
 			 			$('#nombre').val("");
 			 			$('#seccion').val("");
-					}
-					if(msg == -1)
-					{
-						alert("El estudiante seleccionado ya se encuentra registrado para su usuario.");
-                                                $('#id').val(0);
-			 			$('#cedula').val("");
-			 			$('#nombre').val("");
-			 			$('#seccion').val("");
+                                                $('#btnModificar').hide();
 					}
 				});
 				
 	 		});
+                        //Oculta el botón de modificar en caso de que no se haya
+                        // seleccionado ningún estudiante o que sea un registro nuevo.
+                        $('#btnModificar').hide();
 	 	});
 	 </script>
 </head>
@@ -214,9 +248,10 @@
 			<select id="estudiantes" name="estudiantes" size="10"></select>
 			<br />
 			<form name="FRMAgregar" id="FRMAgregar">
-				<input type="hidden" id="id" name="id" value='0'/>
+				<input type="hidden" id="existente" name="existente" value='0'/>
                                 <input type="hidden" id="nombre_org" name="nombre_org" value="" />
                                 <input type="hidden" id="soloModificar" name="soloModificar" value="0" />
+                                <input type="hidden" id="validador" value="1" />
 				<table>
 					<tr>
 						<td>Nombre:</td>
@@ -224,7 +259,13 @@
 					</tr>
 					<tr>
 						<td>C&eacute;dula:</td>
-						<td><input type="text" name="cedula" id="cedula" value="" /></td>
+						<td>
+                                                    <input type="text" name="cedula" id="cedula" value="" />
+                                                    <div id="div_cedula_error" style="display: none">
+                                                        <br />
+                                                        **Este N&uacute;mero de C&eacute;dula ya se ecuentra en uso.
+                                                    </div>
+                                                </td>
 					</tr>
 					<tr>
 						<td>Secci&oacute;n:</td>

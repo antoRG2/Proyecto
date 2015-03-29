@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 08-03-2015 a las 23:13:53
+-- Tiempo de generación: 27-03-2015 a las 14:44:28
 -- Versión del servidor: 5.6.21-log
 -- Versión de PHP: 5.6.4
 
@@ -16,9 +16,10 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8 */;
 
-
-CREATE DATABASE IF NOT EXISTS `sysdatabase` DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
-USE `sysdatabase`;
+--
+-- Base de datos: `sysdatabase`
+--
+DROP DATABASE `sysdatabase`;
 
 -- --------------------------------------------------------
 
@@ -103,19 +104,20 @@ INSERT INTO `tbl_estudiantes` (`cedula`, `nombre`, `seccion`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `tbl_estudiantes_configuraciones` (
+  `id` int(10) unsigned NOT NULL,
   `profesor_id` varchar(11) COLLATE utf8_unicode_ci NOT NULL,
   `estudiantes_id` varchar(11) COLLATE utf8_unicode_ci NOT NULL,
   `configuracion_id` int(10) unsigned NOT NULL,
   `posicion` int(10) NOT NULL,
   `finalizada` tinyint(1) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `tbl_estudiantes_configuraciones`
 --
 
-INSERT INTO `tbl_estudiantes_configuraciones` (`profesor_id`, `estudiantes_id`, `configuracion_id`, `posicion`, `finalizada`) VALUES
-('4-0197-0613', '1-1111-1111', 3, 0, 0);
+INSERT INTO `tbl_estudiantes_configuraciones` (`id`, `profesor_id`, `estudiantes_id`, `configuracion_id`, `posicion`, `finalizada`) VALUES
+(1, '4-0197-0613', '1-1111-1111', 3, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -221,6 +223,25 @@ INSERT INTO `tbl_respuestas` (`id`, `item_id`, `acierto`, `tipo`, `descripcion`)
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `tbl_resultados`
+--
+
+CREATE TABLE IF NOT EXISTS `tbl_resultados` (
+  `prueba_id` int(10) unsigned NOT NULL,
+  `item_id` int(10) unsigned NOT NULL,
+  `resultado` tinyint(1) unsigned NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `tbl_resultados`
+--
+
+INSERT INTO `tbl_resultados` (`prueba_id`, `item_id`, `resultado`) VALUES
+(1, 1, 0);
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `tbl_usuarios`
 --
 
@@ -272,8 +293,9 @@ ALTER TABLE `tbl_estudiantes`
 -- Indices de la tabla `tbl_estudiantes_configuraciones`
 --
 ALTER TABLE `tbl_estudiantes_configuraciones`
-  ADD PRIMARY KEY (`profesor_id`,`estudiantes_id`,`configuracion_id`),
-  ADD KEY `estudiantes_id` (`estudiantes_id`),
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `profesor_id` (`profesor_id`),
+  ADD KEY `estudiantes_id` (`estudiantes_id`) USING BTREE,
   ADD KEY `configuracion_id` (`configuracion_id`);
 
 --
@@ -311,6 +333,13 @@ ALTER TABLE `tbl_respuestas`
   ADD KEY `item_id` (`item_id`);
 
 --
+-- Indices de la tabla `tbl_resultados`
+--
+ALTER TABLE `tbl_resultados`
+  ADD PRIMARY KEY (`prueba_id`,`item_id`),
+  ADD KEY `item_id` (`item_id`);
+
+--
 -- Indices de la tabla `tbl_usuarios`
 --
 ALTER TABLE `tbl_usuarios`
@@ -331,6 +360,11 @@ ALTER TABLE `tbl_areaconocimiento`
 --
 ALTER TABLE `tbl_configuraciones`
   MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT de la tabla `tbl_estudiantes_configuraciones`
+--
+ALTER TABLE `tbl_estudiantes_configuraciones`
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT de la tabla `tbl_item`
 --
@@ -361,9 +395,9 @@ ALTER TABLE `tbl_configuracion_item`
 -- Filtros para la tabla `tbl_estudiantes_configuraciones`
 --
 ALTER TABLE `tbl_estudiantes_configuraciones`
-  ADD CONSTRAINT `Tbl_estudiantes_configuraciones_ibfk_1` FOREIGN KEY (`profesor_id`) REFERENCES `tbl_profesores` (`cedula`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `Tbl_estudiantes_configuraciones_ibfk_2` FOREIGN KEY (`estudiantes_id`) REFERENCES `tbl_estudiantes` (`cedula`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `Tbl_estudiantes_configuraciones_ibfk_3` FOREIGN KEY (`configuracion_id`) REFERENCES `tbl_configuraciones` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `tbl_estudiantes_configuraciones_ibfk_1` FOREIGN KEY (`configuracion_id`) REFERENCES `tbl_configuraciones` (`id`) ON DELETE NO ACTION,
+  ADD CONSTRAINT `tbl_estudiantes_configuraciones_ibfk_2` FOREIGN KEY (`profesor_id`) REFERENCES `tbl_profesores` (`cedula`) ON DELETE NO ACTION,
+  ADD CONSTRAINT `tbl_estudiantes_configuraciones_ibfk_3` FOREIGN KEY (`estudiantes_id`) REFERENCES `tbl_estudiantes` (`cedula`) ON DELETE NO ACTION;
 
 --
 -- Filtros para la tabla `tbl_item`
@@ -390,6 +424,13 @@ ALTER TABLE `tbl_profesores_estudiantes`
 --
 ALTER TABLE `tbl_respuestas`
   ADD CONSTRAINT `Tbl_respuestas_ibfk_1` FOREIGN KEY (`item_id`) REFERENCES `tbl_item` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `tbl_resultados`
+--
+ALTER TABLE `tbl_resultados`
+  ADD CONSTRAINT `tbl_resultados_ibfk_2` FOREIGN KEY (`item_id`) REFERENCES `tbl_item` (`id`) ON DELETE NO ACTION,
+  ADD CONSTRAINT `tbl_resultados_ibfk_3` FOREIGN KEY (`prueba_id`) REFERENCES `tbl_estudiantes_configuraciones` (`id`) ON DELETE NO ACTION;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

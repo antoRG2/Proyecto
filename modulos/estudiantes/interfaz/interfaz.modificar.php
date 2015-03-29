@@ -1,5 +1,5 @@
 <?php
-require_once $_SERVER['DOCUMENT_ROOT'] . '/Sistema/modulos/login/modelo/sesion.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/Sistema/modulos/login/modelo/sesion.php';
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -26,6 +26,10 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/Sistema/modulos/login/modelo/sesion.p
                     drop: function (event, ui) {
                         $(this).find(".placeholder").remove();
                         $("<li id='" + ui.draggable.prop('id') + "'></li>").text(ui.draggable.text()).appendTo(this);
+                        
+                        $("#drop ol li").dblclick(function(){
+                            $(this).remove();
+                        });	
                     }
                 }).sortable({
                     items: "li:not(.placeholder)",
@@ -33,15 +37,14 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/Sistema/modulos/login/modelo/sesion.p
                         $(this).removeClass("ui-state-default");
                     }
                 });
-
                 $("#cedula").mask("9-9999-9999");
 
-                $('#estudiantes').empty()
+                $('#estudiantes').empty();
                 //JSON DATA///////////////////////////////////////////////////////////////////////////////////////////////////////////
                 var request = jQuery.ajax({
                     type: 'POST',
                     url: '../modelo/busqueda.estudiantes_profesor.json.php', //file name
-                    data: 'profesor=' + <?= $usuario_id ?>, //data
+                    data: 'profesor=<?=$usuario?>', //data variable de session
                     async: false
                 });
 
@@ -50,11 +53,11 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/Sistema/modulos/login/modelo/sesion.p
                 });
                 var options = "";
                 if (json.length == 0) {
-                    data = '0,,,';
+                    data = ',,';
                     options += "<option value='" + data + "'>No Hubieron resultados</option>"
                 }
                 for (i = 0; i < json.length; i++) {
-                    data = json[i]['id'] + ',' + json[i]['cedula'] + ',' + json[i]['nombre'] + ',' + json[i]['seccion'];
+                    data = json[i]['cedula'] + ',' + json[i]['nombre'] + ',' + json[i]['seccion'];
                     options += "<option value='" + data + "'>" + json[i]['cedula'] + ": " + json[i]['nombre'] + "</option>"
                 }
 
@@ -91,12 +94,12 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/Sistema/modulos/login/modelo/sesion.p
                  //END JSON DATA///////////////////////////////////////////////////////////////////////////////////////////////////               
                 $("#btnEliminarEstudiante").click(function () {
                     var data = $('#estudiantes').val().split(',');
-                    var id = data[0]; // Obtengo el Id del Estudiante
+                    var cedula = data[0]; // Obtengo el Id del Estudiante
 
                     var request = jQuery.ajax({
                         type: 'POST',
                         url: '../modelo/control.estudiante.php', //file name
-                        data: 'id=' + id + '&eliAsig=1', //data
+                        data: 'cedula=' + cedula + '&eliAsig=1', //data
                         async: false
                     });
 
@@ -111,6 +114,67 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/Sistema/modulos/login/modelo/sesion.p
                             location.reload();
                         }
                     });
+                });
+                
+                $("#btnGuardar").click(function(){
+                       if($('#estudiantes').val() == null)
+                       {
+                            alert("Por favor seleccionar un estudiante");
+                            return false;
+                       }
+			var data = $('#estudiantes').val().split(',');
+                        var cedula = data[0]; // Obtengo el Id del Estudiante;
+                        
+                        if(cedula == '')
+                        {
+                            alert("Por favor seleccionar un estudiante");
+                            return false;
+                        }
+			var datos = [];
+			$("#drop ol li").each(function(){	
+                            datos.push($(this).attr("id"));
+			});
+			var dataJSON = JSON.parse(JSON.stringify(datos));
+					
+			var request = jQuery.ajax({
+                            type: 'POST',
+                            url: '../modelo/control.estudiante.php',  //file name
+                            data: "dataJSON=" + dataJSON + '&cedula=' + cedula + '&asignar=1',//data
+                            async:false
+			});
+                            request.done(function(msg){
+                                if($.trim(msg) == 1){
+                                   alert("Éxito al guardar");
+				}
+				else{
+                                    alert("Error al guardar.");
+                                    return false;
+				}
+                            });
+		});
+                
+                $("#estudiantes").change(function(){
+                    $("#drop ol").find(".placeholder").remove();
+                    
+                    var request = jQuery.ajax({
+                        type: 'POST',
+                        url: '../../configuraciones/modelo/listado.configuraciones.estudiantes.json.php', //file name
+                        data: 'estudiante=' + $(this).val(), //data variable de session
+                        async: false
+                    });
+                    
+                    request.done(function(msg){
+                        json = JSON.parse(msg);
+                    });
+                    
+                    for(i = 0; i < json.length; i++){
+                          $("#drop ol").append("<li id='" + json[i]["id"] + "'>" + json[i]["nombre"] + "</li>");
+                    }
+  
+                    $("#drop ol li").dblclick(function(){
+                        $(this).remove();
+                    });	
+                    
                 });
             });
         </script>

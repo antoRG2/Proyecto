@@ -18,7 +18,7 @@ class AreaC {
 	 * Constructor de la clase el cual se encarga de establecer la conección con la base de datos directamente
 	 */
 	function __construct() {
-		require_once  '../../../DB/class.DB.php';
+		$_SERVER['DOCUMENT_ROOT'].'/Sistema/DB/class.DB.php';
 		$this -> obj_bconn = new DBConn();
 		$this -> dbh = $this -> obj_bconn -> get_conn();
 	}
@@ -26,11 +26,11 @@ class AreaC {
 	public function _QUERY()
 	{
 		$SQL = "SELECT 
-				    sysdatabase.tbl_areaconocimiento.id, sysdatabase.tbl_areaconocimiento.nombre
+				    SysDataBase.tbl_areaconocimiento.id, SysDataBase.tbl_areaconocimiento.nombre
 				FROM
-				    sysdatabase.tbl_areaconocimiento
+				    SysDataBase.tbl_areaconocimiento
 				WHERE
-				    sysdatabase.tbl_areaconocimiento.id {$this -> id}";
+				    SysDataBase.tbl_areaconocimiento.id {$this -> id}";
 						
 		$this -> _LIMPIAR();
 		$result = MYSQLI_query($this -> dbh, $SQL);
@@ -54,9 +54,9 @@ class AreaC {
 	{
 		$nombre = $this -> _FREE($nombre);
 		if($modificar == 0)
-			$SQL = "INSERT INTO sysdatabase.tbl_areaconocimiento(nombre) VALUES ('$nombre');";
+			$SQL = "INSERT INTO SysDataBase.tbl_areaconocimiento(nombre) VALUES ('$nombre');";
 		else 
-			$SQL = "UPDATE sysdatabase.tbl_areaconocimiento set nombre = '$nombre' WHERE id = $id;";
+			$SQL = "UPDATE SysDataBase.tbl_areaconocimiento set nombre = '$nombre' WHERE id = $id;";
 		
 		$result = mysqli_query($this->dbh, $SQL);
 		if($result)
@@ -66,7 +66,7 @@ class AreaC {
 	
 	public function Eliminar($id)
 	{
-		$SQL = "DELETE FROM sysdatabase.tbl_areaconocimiento WHERE id = $id;";
+		$SQL = "DELETE FROM SysDataBase.tbl_areaconocimiento WHERE id = $id;";
 		$result = mysqli_query($this->dbh, $SQL);
 		if($result)
 			return 1;
