@@ -1,4 +1,17 @@
-$(document).ready(function() {
+//***************************************************************************//   
+//                                                                           //
+//                                                                           //       
+//                                                                           //  
+//                                                                           //
+//                                                                           //
+//                                                                           //
+//                                                                           //
+//                                                                           //   
+//                                                                           //
+//***************************************************************************//
+
+
+$(document).ready(function () {
     var table = $('#tlistado').DataTable();
  
     $('#tlistado tbody').on( 'click', 'tr', function () {
@@ -9,17 +22,20 @@ $(document).ready(function() {
             table.$('tr.selected').removeClass('selected');
             $(this).addClass('selected');
         }
-    } );
+    });
  
-   $(".delete").hide();
-} );
+    $(".delete").hide();
+
+});
+
 
 function Eliminar(id){
-	if(confirm("¿Desea eliminar la configuración? (Esta acción no se puede deshacer)"))
+
+    if (confirm("¿Desea eliminar la configuración? (Esta acción no se puede deshacer)"))
 	{
 		var request = jQuery.ajax({
 			type: 'GET',
-			url: '../modelo/control.configuracion.php',  //file name
+			url: '../modelo/control.configuracion.php',//file name
 			data: {
 				Confid : id,
 				eliminar : 1
@@ -28,7 +44,8 @@ function Eliminar(id){
 		});
 					
 		request.done(function(msg){
-			if($.trim(msg) == 1){
+
+		    if ($.trim(msg) == 1) {
 				alert("Eliminación completa");
 				location.reload();
 				return false;
@@ -40,3 +57,6 @@ function Eliminar(id){
 		});
 	}
 }
+
+
+//***************************************************************************//

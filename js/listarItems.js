@@ -1,4 +1,17 @@
-$(document).ready(function() {
+//***************************************************************************//   
+//                                                                           //
+//                                                                           //       
+//                                                                           //  
+//                                                                           //
+//                                                                           //
+//                                                                           //
+//                                                                           //
+//                                                                           //   
+//                                                                           //
+//***************************************************************************//
+
+$(document).ready(function () {
+
     var table = $('#tlistado').DataTable();
  
     $('#tlistado tbody').on( 'click', 'tr', function () {
@@ -9,17 +22,19 @@ $(document).ready(function() {
             table.$('tr.selected').removeClass('selected');
             $(this).addClass('selected');
         }
-    } );
+    });
  
-   $(".delete").hide();
-} );
+    $(".delete").hide();
+
+});
 
 function Eliminar(ItemID){
-	if(confirm("¿Desea eliminar el item? (Esta acción no se puede deshacer)"))
+
+    if (confirm("¿Desea eliminar el item? (Esta acción no se puede deshacer)"))
 	{
 		var request = jQuery.ajax({
 			type: 'GET',
-			url: '../modelo/control.item.php',  //file name
+			url: '../modelo/control.item.php',//file name
 			data: {
 				itemID : ItemID,
 				eliminar : 1
@@ -28,7 +43,8 @@ function Eliminar(ItemID){
 		});
 					
 		request.done(function(msg){
-			if($.trim(msg) == 1){
+
+		    if ($.trim(msg) == 1) {
 				alert("Eliminación completa");
 				location.reload();
 				return false;
@@ -40,3 +56,6 @@ function Eliminar(ItemID){
 		});
 	}
 }
+
+
+//***************************************************************************//
