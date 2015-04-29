@@ -1,5 +1,19 @@
+<!--//***********************************************************************//   
+//                                                                           //
+//                                                                           //       
+//                                                                           //  
+//                                                                           //
+//                                                                           //
+//                                                                           //
+//                                                                           //
+//                                                                           //   
+//                                                                           //
+//************************************************************************//-->
+
+
 <?php
-require_once $_SERVER['DOCUMENT_ROOT'].'/Sistema/modulos/login/modelo/sesion.php';
+require_once $_SERVER['DOCUMENT_ROOT'].
+                            '/Sistema/modulos/login/modelo/sesion.php';
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -14,18 +28,21 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/Sistema/modulos/login/modelo/sesion.php
 
         <script>
             $(function () {
+
                 $("#catalog").accordion();
                 $("#catalog li").draggable({
                     appendTo: "body",
                     helper: "clone"
                 });
+
                 $("#drop ol").droppable({
                     activeClass: "ui-state-default",
                     hoverClass: "ui-state-hover",
                     accept: ":not(.ui-sortable-helper)",
                     drop: function (event, ui) {
                         $(this).find(".placeholder").remove();
-                        $("<li id='" + ui.draggable.prop('id') + "'></li>").text(ui.draggable.text()).appendTo(this);
+                        $("<li id='" + ui.draggable.prop('id') + "'></li>")
+                            .text(ui.draggable.text()).appendTo(this);
                         
                         $("#drop ol li").dblclick(function(){
                             $(this).remove();
@@ -37,13 +54,14 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/Sistema/modulos/login/modelo/sesion.php
                         $(this).removeClass("ui-state-default");
                     }
                 });
-                $("#cedula").mask("9-9999-9999");
 
+                $("#cedula").mask("9-9999-9999");
                 $('#estudiantes').empty();
-                //JSON DATA///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+                //JSON DATA//
                 var request = jQuery.ajax({
                     type: 'POST',
-                    url: '../modelo/busqueda.estudiantes_profesor.json.php', //file name
+                    url: '../modelo/busqueda.estudiantes_profesor.json.php',//file name
                     data: 'profesor=<?=$usuario?>', //data variable de session
                     async: false
                 });
@@ -51,14 +69,19 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/Sistema/modulos/login/modelo/sesion.php
                 request.done(function (msg) {
                     json = JSON.parse(msg);
                 });
+
                 var options = "";
                 if (json.length == 0) {
                     data = ',,';
-                    options += "<option value='" + data + "'>No Hubieron resultados</option>"
+                    options += "<option value='" + data +
+                        "'>No Hubieron resultados</option>";
                 }
+
                 for (i = 0; i < json.length; i++) {
-                    data = json[i]['cedula'] + ',' + json[i]['nombre'] + ',' + json[i]['seccion'];
-                    options += "<option value='" + data + "'>" + json[i]['cedula'] + ": " + json[i]['nombre'] + "</option>"
+                    data = json[i]['cedula'] + ',' + json[i]['nombre'] + ','
+                        + json[i]['seccion'];
+                    options += "<option value='" + data + "'>" +
+                     json[i]['cedula'] + ": " + json[i]['nombre'] + "</option>"
                 }
 
                 $('#estudiantes').append(options);
@@ -69,18 +92,23 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/Sistema/modulos/login/modelo/sesion.php
                 
                 var request = jQuery.ajax({
                     type: 'POST',
-                    url: '../../configuraciones/modelo/listado.configuraciones.json.php',  //file name
+                    url:
+                    '../../configuraciones/modelo/listado.configuraciones.json.php',//file name
                     async:false
-		});
+		        });
                 
                 request.done(function(msg){
                     json = JSON.parse(msg);
-		});
-                var catalog= '<div id="catalog"><ul>';
-                for(i = 0; i < json.length; i++){
-                    catalog += '<li id="'+ json[i]['id'] +'">'+ json[i]['nombre']  +'</li>';
-		}
-		catalog +='</ul></div>';
+		        });
+
+                var catalog = '<div id="catalog"><ul>';
+
+                for (i = 0; i < json.length; i++) {
+                    catalog += '<li id="' + json[i]['id'] + '">' +
+                        json[i]['nombre'] + '</li>';
+		        }
+
+                catalog += '</ul></div>';
                 
                 $('#draggable').append(catalog);
                     $( "#catalog li" ).draggable({
@@ -88,12 +116,14 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/Sistema/modulos/login/modelo/sesion.php
                         helper: "clone"
                     });
 				
-		$(".ui-droppable li").dblclick(function(){
-                    $(this).remove();
-		});	
-                 //END JSON DATA///////////////////////////////////////////////////////////////////////////////////////////////////               
-                $("#btnEliminarEstudiante").click(function () {
-                    var data = $('#estudiantes').val().split(',');
+		        $(".ui-droppable li").dblclick(function(){
+                            $(this).remove();
+		        });	
+                 //END JSON DATA//
+
+		        $("#btnEliminarEstudiante").click(function () {
+
+		            var data = $('#estudiantes').val().split(',');
                     var cedula = data[0]; // Obtengo el Id del Estudiante
 
                     var request = jQuery.ajax({
@@ -104,12 +134,10 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/Sistema/modulos/login/modelo/sesion.php
                     });
 
                     request.done(function (msg) {
-                        if (msg == 0)
-                        {
+                        if (msg == 0){
                             alert("Error al guardar");
                         }
-                        if (msg == 1)
-                        {
+                        if (msg == 1){
                             alert("Éxito al guardar");
                             location.reload();
                         }
@@ -117,41 +145,42 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/Sistema/modulos/login/modelo/sesion.php
                 });
                 
                 $("#btnGuardar").click(function(){
-                       if($('#estudiantes').val() == null)
-                       {
-                            alert("Por favor seleccionar un estudiante");
-                            return false;
-                       }
-			var data = $('#estudiantes').val().split(',');
-                        var cedula = data[0]; // Obtengo el Id del Estudiante;
+
+                    if ($('#estudiantes').val() == null) {
+                        alert("Por favor seleccionar un estudiante");
+                        return false;
+                    }
+                    var data = $('#estudiantes').val().split(',');
+                    var cedula = data[0]; // Obtengo el Id del Estudiante;
                         
-                        if(cedula == '')
-                        {
-                            alert("Por favor seleccionar un estudiante");
-                            return false;
-                        }
-			var datos = [];
-			$("#drop ol li").each(function(){	
-                            datos.push($(this).attr("id"));
-			});
-			var dataJSON = JSON.parse(JSON.stringify(datos));
+                    if(cedula == ''){
+                        alert("Por favor seleccionar un estudiante");
+                        return false;
+                    }
+                    var datos = [];
+
+                    $("#drop ol li").each(function () {
+                        datos.push($(this).attr("id"));
+                    });
+                    var dataJSON = JSON.parse(JSON.stringify(datos));
 					
-			var request = jQuery.ajax({
-                            type: 'POST',
-                            url: '../modelo/control.estudiante.php',  //file name
-                            data: "dataJSON=" + dataJSON + '&cedula=' + cedula + '&asignar=1',//data
-                            async:false
-			});
-                            request.done(function(msg){
-                                if($.trim(msg) == 1){
-                                   alert("Éxito al guardar");
-				}
-				else{
-                                    alert("Error al guardar.");
-                                    return false;
-				}
-                            });
-		});
+                    var request = jQuery.ajax({
+                        type: 'POST',
+                        url: '../modelo/control.estudiante.php',  //file name
+                        data: "dataJSON=" + dataJSON + '&cedula=' + cedula +
+                            '&asignar=1',//data
+                        async:false
+                    });
+                        request.done(function(msg){
+                            if($.trim(msg) == 1){
+                                alert("Éxito al guardar");
+                            }
+                            else{
+                                alert("Error al guardar.");
+                                return false;
+                            }
+                        });
+		        });
                 
                 $("#estudiantes").change(function(){
                     $("#drop ol").find(".placeholder").remove();
@@ -194,10 +223,12 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/Sistema/modulos/login/modelo/sesion.php
                     <label for="estudiantes">Estudiantes Asignados:</label>
                     <br />
                     <br />
-                    <select id="estudiantes" name="estudiantes" size="10"></select>
+                    <select id="estudiantes" name="estudiantes" size="10">
+                    </select>
                     <br />
                     <br />
-                    <input type="button" value="Eliminar Estudiante de la Lista" id="btnEliminarEstudiante"/>
+                    <input type="button" value="Eliminar Estudiante de la Lista"
+                         id="btnEliminarEstudiante"/>
                 </div>
                 <h2>Asignar Configuraciones al Estudiante</h2>
                 <br />
@@ -205,23 +236,31 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/Sistema/modulos/login/modelo/sesion.php
                 <div class="dragDropContainer">
 
                     <div id="drop">
-                        <h3 class="ui-widget-header">Configuraci&oacute;n de Prueba</h3>
+                        <h3 class="ui-widget-header">Configuraci&oacute;n 
+                            de Prueba </h3>
                         <div class="ui-widget-content">
                             <ol>
-                                <li class="placeholder">Arrastre las configuraciones aqui</li>
+                                <li class="placeholder">Arrastre las 
+                                    configuraciones aqui </li>
                             </ol>
                         </div>
                     </div>
 
                     <div id="draggable">
-                        <h3 class="ui-widget-header">Configuraciones Disponibles</h3>
+                        <h3 class="ui-widget-header">Configuraciones 
+                            Disponibles</h3>
                         <div id="catalog"></div>
                     </div>			
                 </div>
                 <br />
                 <br />
-                <input type="button" value="Guardar configuracion" id="btnGuardar"/>
+                <input type="button" value="Guardar configuracion" 
+                    id="btnGuardar"/>
             </div>
         </div>
     </body>
 </html>
+
+
+
+<!--//********************************************************************//-->

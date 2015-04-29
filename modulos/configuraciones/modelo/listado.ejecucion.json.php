@@ -1,12 +1,27 @@
+<!--//***********************************************************************//   
+//                                                                           //
+//                                                                           //       
+//                                                                           //  
+//                                                                           //
+//                                                                           //
+//                                                                           //
+//                                                                           //
+//                                                                           //   
+//                                                                           //
+//************************************************************************//-->
+
+
 <?php
 error_reporting(E_ALL ^ E_NOTICE);
 require_once 'clase.configuracion.php';	
+
 $objConf = new Configuracion;
 $id = 3;
 $objConf -> set_ID($id);
 $objConf -> _QUERY4EXC();
 $Ajson = $objConf -> get_arrayJSON();
 $array = array();
+
 for($i = 0; $i < count($Ajson); $i++)
 {
 	$objConf -> set_ItemID($Ajson[$i][0]);
@@ -22,5 +37,9 @@ for($i = 0; $i < count($Ajson); $i++)
 	"respuestas" => $objConf -> get_arrayJSONR()
 	);
 }
+
 echo json_encode($array);
 ?>
+
+
+<!--//********************************************************************//-->

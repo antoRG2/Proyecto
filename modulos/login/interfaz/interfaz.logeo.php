@@ -1,10 +1,25 @@
+<!--//***********************************************************************//   
+//                                                                           //
+//                                                                           //       
+//                                                                           //  
+//                                                                           //
+//                                                                           //
+//                                                                           //
+//                                                                           //
+//                                                                           //   
+//                                                                           //
+//************************************************************************//-->
+
+
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="utf-8" />
     <title>Sistema</title>
     <script  src="../../../js/jquery.js"></script>
-    <link rel="stylesheet" type="text/css" href="../../../CSS/login.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="../../../CSS/login.css" 
+        media="screen" />
     <script  src="../../../js/mascara.js"></script>
     <script type="text/javascript">
     	jQuery.noConflict();
@@ -13,9 +28,12 @@
                 /*
     		 * Comienza la acción de cuando se hace click al botón ingresar
     		 * Pasos:
-    		 * Primero valida que se hayan ingresado el nombre y la contraseña.
-    		 * Si la validación es correcta, entonces procede a realizar el proceso de logeo.
-    		 * EN caso de que los campos no estén ingresados o de que no se haya logrado validar el logeo, 
+    		 * Primero valida que se hayan ingresado el nombre y 
+             la contraseña.
+    		 * Si la validación es correcta, entonces procede a 
+             realizar el proceso de logeo.
+    		 * EN caso de que los campos no estén ingresados o de que no
+             se haya logrado validar el logeo, 
     		 * se muestra una alerta de error
     		 */
     		$("#ingresar").click(function(){
@@ -69,7 +87,7 @@
 					<td>
 						<div class="field">
 							<label for="cedula">
-                                                            C&eacute;dula:
+                                C&eacute;dula:
 							</label>
 						</div>					
 					</td>
@@ -90,7 +108,8 @@
 					</td>
 					<td>
 						<div >
-							<input type="password" name="clave" id="clave" maxlength="50" />
+							<input type="password" name="clave" id="clave" 
+                                maxlength="50" />
 						</div>
 					</td>
 				</tr>
@@ -108,3 +127,8 @@
 	</div>
 </body>
 </html>
+
+
+
+
+<!--//********************************************************************//-->

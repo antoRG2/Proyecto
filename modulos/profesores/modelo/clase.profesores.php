@@ -1,3 +1,17 @@
+<!--//***********************************************************************//   
+//                                                                           //
+//                                                                           //       
+//                                                                           //  
+//                                                                           //
+//                                                                           //
+//                                                                           //
+//                                                                           //
+//                                                                           //   
+//                                                                           //
+//************************************************************************//-->
+
+
+
 <?php
 
 Class Profesor {
@@ -15,7 +29,8 @@ Class Profesor {
     protected $contador = 0;
 
     /*
-     * Constructor de la clase el cual se encarga de establecer la conección con la base de datos directamente
+     * Constructor de la clase el cual se encarga de establecer la conección 
+     * con la base de datos directamente
      */
 
     function __construct() {
@@ -51,7 +66,8 @@ Class Profesor {
                 tbl_profesores.nombre
               From
                 tbl_profesores Inner Join
-                tbl_profesores_estudiantes On tbl_profesores_estudiantes.profesor_id =
+                tbl_profesores_estudiantes On tbl_profesores_
+                estudiantes.profesor_id =
                   tbl_profesores.cedula
               Where
                 tbl_profesores_estudiantes.estudiante_id {$this -> estudiante_id};";
@@ -86,9 +102,12 @@ Class Profesor {
         if ($int < $this->contador) {
             switch ($FORMAT) {
                 case "HTML" :
-                    return htmlentities($this->Nombre[$int], (int) $this->flag, "Windows-1252", true);
+                    return htmlentities($this->Nombre[$int], (int) $this->flag,
+                        "Windows-1252", true);
                 case "INPUT" :
-                    return htmlspecialchars_decode(htmlspecialchars(htmlentities($this->Nombre[$int], (int) $this->flag, "Windows-1252", true)), ENT_NOQUOTES);
+                    return htmlspecialchars_decode(htmlspecialchars(htmlentities
+                    ($this->Nombre[$int], (int) $this->flag, "Windows-1252", true)), 
+                        ENT_NOQUOTES);
                 default :
                     return $this->Nombre[$int];
             }
@@ -122,3 +141,7 @@ Class Profesor {
 }
 
 ?>
+
+
+
+<!--//********************************************************************//-->

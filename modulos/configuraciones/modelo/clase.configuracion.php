@@ -203,7 +203,8 @@ class Configuracion {
         From
         tbl_configuraciones Inner Join
         tbl_estudiantes_configuraciones
-            On tbl_estudiantes_configuraciones.configuracion_id = tbl_configuraciones.id
+            On tbl_estudiantes_configuraciones.configuracion_id 
+            = tbl_configuraciones.id
         Where
         tbl_estudiantes_configuraciones.estudiantes_id {$this -> cedula}";
 			  			
@@ -390,7 +391,8 @@ class Configuracion {
         $nombre = $this->_FREE($nombre);
 		$descripcion = $this->_FREE($descripcion);
 				
-		$SQL = "INSERT INTO sysdatabase.tbl_configuraciones(nombre,descripcion,publico) ";
+		$SQL = "INSERT INTO sysdatabase.tbl_configuraciones(nombre,
+                descripcion,publico) ";
 		$SQL .= "VALUES('$nombre','$descripcion', $pub); ";
 		
 		$result = mysqli_query($this->dbh, $SQL);
@@ -398,7 +400,8 @@ class Configuracion {
 		if($result)
 		{
 			$id = mysqli_insert_id($this->dbh);
-			$SQL = "INSERT INTO sysdatabase. tbl_profesores_configuraciones(profesor_id,configuracion_id) ";
+			$SQL = "INSERT INTO sysdatabase. tbl_profesores_configuraciones(profesor_id,
+                                            configuracion_id) ";
                         $SQL .= "VALUES('{$cedulaProfesor}',$id); ";
 
 			$result2 = mysqli_query($this->dbh, $SQL);
@@ -420,7 +423,8 @@ class Configuracion {
 		for($i = 1; $i < count($dataJSON); $i++)
 			$values .= ",($id,{$dataJSON[$i]},$i)";
 		
-		$SQL = "INSERT INTO sysdatabase.tbl_configuracion_item(configuracion_id,item_id,posicion) ";
+		$SQL = "INSERT INTO sysdatabase.tbl_configuracion_item(configuracion_id,
+                                            item_id,posicion) ";
 		$SQL .= "VALUES $values;";
 
 		$result = mysqli_query($this->dbh, $SQL);

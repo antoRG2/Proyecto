@@ -1,10 +1,27 @@
+<!--//***********************************************************************//   
+//                                                                           //
+//                                                                           //       
+//                                                                           //  
+//                                                                           //
+//                                                                           //
+//                                                                           //
+//                                                                           //
+//                                                                           //   
+//                                                                           //
+//************************************************************************//-->
+
+
 <?php
 error_reporting(E_ALL ^ E_NOTICE);
-require_once $_SERVER['DOCUMENT_ROOT'] . '/Sistema/modulos/login/modelo/sesion.php';
-require_once $_SERVER['DOCUMENT_ROOT'] . '/Sistema/modulos/configuraciones/modelo/clase.configuracion.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . 
+                                '/Sistema/modulos/login/modelo/sesion.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . 
+        '/Sistema/modulos/configuraciones/modelo/clase.configuracion.php';
+
 $objConf = new Configuracion;
 $objConf -> _QUERY();
 $array = array();
+
 for($i = 0; $i < $objConf ->get_Contador(); $i++)
 {	
 	$array[] = array(
@@ -15,3 +32,6 @@ for($i = 0; $i < $objConf ->get_Contador(); $i++)
 }
 echo json_encode($array);
 ?>
+
+
+<!--//********************************************************************//-->

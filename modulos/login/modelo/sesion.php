@@ -1,3 +1,16 @@
+<!--//***********************************************************************//   
+//                                                                           //
+//                                                                           //       
+//                                                                           //  
+//                                                                           //
+//                                                                           //
+//                                                                           //
+//                                                                           //
+//                                                                           //   
+//                                                                           //
+//************************************************************************//-->
+
+
 <?php
 
 foreach ($_GET as $key => $value) {
@@ -14,7 +27,8 @@ $pass = $_SESSION['pass'];
 $usuario_id = $_SESSION['userID'];
 $tipoUsuario = $_SESSION['tipoUsuario'];
 
-require_once $_SERVER['DOCUMENT_ROOT'] . '/Sistema/modulos/login/modelo/clase.logeo.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . 
+                        '/Sistema/modulos/login/modelo/clase.logeo.php';
 
 $obj = new Logeo;
 $obj->set_Cedula($usuario);
@@ -27,3 +41,5 @@ if ($obj->get_Contador() <= 0) {
 }
 ?>
 
+
+<!--//********************************************************************//-->

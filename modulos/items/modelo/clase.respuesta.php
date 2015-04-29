@@ -1,3 +1,16 @@
+<!--//***********************************************************************//   
+//                                                                           //
+//                                                                           //       
+//                                                                           //  
+//                                                                           //
+//                                                                           //
+//                                                                           //
+//                                                                           //
+//                                                                           //   
+//                                                                           //
+//************************************************************************//-->
+
+
 <?php
 class Respuesta {
 	//Atributos para la conección a la base de datos
@@ -20,7 +33,8 @@ class Respuesta {
 	protected $contador = 0;
 	
 	/*
-	 * Constructor de la clase el cual se encarga de establecer la conección con la base de datos directamente
+	 * Constructor de la clase el cual se encarga de establecer la conección con 
+     * la base de datos directamente
 	 */
 	function __construct() {
 		require_once  '../../../DB/class.DB.php';
@@ -100,9 +114,12 @@ class Respuesta {
 		if ($int < $this -> contador) {
 			switch($FORMAT) {
 				case "HTML" :
-					return htmlentities($this -> Descripcion[$int], (int)$this -> flag, "Windows-1252", true);
+					return htmlentities($this -> Descripcion[$int], (int)$this ->
+                        flag, "Windows-1252", true);
 				case "INPUT" :
-					return htmlspecialchars_decode(htmlspecialchars(htmlentities($this -> Descripcion[$int], (int)$this -> flag, "Windows-1252", true)), ENT_NOQUOTES);
+					return htmlspecialchars_decode(htmlspecialchars(htmlentities
+                    ($this -> Descripcion[$int], (int)$this -> flag, 
+                    "Windows-1252", true)), ENT_NOQUOTES);
 				default :
 					return $this -> Descripcion[$int];
 			}
@@ -149,7 +166,7 @@ class Respuesta {
 	    }
 		return true;
 	}
-
-
 }
 ?>
+
+<!--//********************************************************************//-->

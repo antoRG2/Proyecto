@@ -1,3 +1,16 @@
+<!--//***********************************************************************//   
+//                                                                           //
+//                                                                           //       
+//                                                                           //  
+//                                                                           //
+//                                                                           //
+//                                                                           //
+//                                                                           //
+//                                                                           //   
+//                                                                           //
+//************************************************************************//-->
+
+
 <?php
 class Logeo {
 	//Atributos para la conección a la base de datos
@@ -18,7 +31,8 @@ class Logeo {
 	protected $contador = 0;
 	
 	/*
-	 * Constructor de la clase el cual se encarga de establecer la conección con la base de datos directamente
+	 * Constructor de la clase el cual se encarga de establecer la conección
+     * con la base de datos directamente
 	 */
 	function __construct() {
 		require_once  $_SERVER['DOCUMENT_ROOT'].'/Sistema/DB/class.DB.php';
@@ -84,18 +98,22 @@ class Logeo {
 		if ($id < $this -> contador) {
 			switch($FORMAT) {
 				case "HTML" :
-					return htmlentities($this -> Clave[$int], (int)$this -> flag, "Windows-1252", true);
+					return htmlentities($this -> Clave[$int], (int)$this -> flag, 
+                        "Windows-1252", true);
 				case "INPUT" :
-					return htmlspecialchars_decode(htmlspecialchars(htmlentities($this -> Clave[$int], (int)$this -> flag, "Windows-1252", true)), ENT_NOQUOTES);
+					return htmlspecialchars_decode(htmlspecialchars
+                    (htmlentities($this -> 
+                        Clave[$int], (int)$this -> flag, "Windows-1252", true))
+                        , ENT_NOQUOTES);
 				default :
 					return $this -> Clave[$int];
 			}
 		}
 	}
         
-        public function get_Tipo($int){
-            if ($int < $this -> contador)
-                return $this -> Tipo[$int];
+    public function get_Tipo($int){
+        if ($int < $this -> contador)
+            return $this -> Tipo[$int];
         }
 
 	//SET DATA
@@ -128,3 +146,7 @@ class Logeo {
 
 }
 ?>
+
+
+
+<!--//********************************************************************//-->

@@ -1,3 +1,16 @@
+<!--//***********************************************************************//   
+//                                                                           //
+//                                                                           //       
+//                                                                           //  
+//                                                                           //
+//                                                                           //
+//                                                                           //
+//                                                                           //
+//                                                                           //   
+//                                                                           //
+//************************************************************************//-->
+
+
 <?php
 error_reporting(E_ALL);
 
@@ -7,13 +20,17 @@ error_reporting(-1);
 // Lo mismo que error_reporting(E_ALL);
 ini_set('error_reporting', E_ALL);
 /*
- * Este archivo recibe por parametros las variables del logeo y las procesa con ayuda de la clase clase.logeo.php
+ * Este archivo recibe por parametros las variables del logeo y las procesa
+ * con ayuda de la clase clase.logeo.php
  *
- * En esta parte se reciben las variables que vienen tanto como POST y como GET
+ * En esta parte se reciben las variables que vienen tanto como POST y 
+ * como GET
  * y las convierte en variables propias.
  * Ejemplo
- * En lugar de tener que poner$_POST['nombre'] basta con simplemente poner $nombre para utilizar la variable.
+ * En lugar de tener que poner$_POST['nombre'] basta con simplemente 
+ * poner $nombre para utilizar la variable.
  */
+
 foreach ($_GET as $key => $value)
 	$$key = $value;
 foreach ($_POST as $key => $value)
@@ -35,8 +52,10 @@ if(isset($editar)){
 				$directorio = "../../../Files/$itemID/IMG";
 				if(!file_exists($directorio))
 					mkdir($directorio, 0777, true);
-				$uploadfile = $directorio ."/". basename($_FILES['enunciadoImg']['name']);
-				if (!move_uploaded_file($_FILES['enunciadoImg']['tmp_name'], $uploadfile))
+				$uploadfile = $directorio ."/". 
+                    basename($_FILES['enunciadoImg']['name']);
+				if (!move_uploaded_file($_FILES['enunciadoImg']['tmp_name'],
+                    $uploadfile))
 				{
 					echo "0";
 					die();
@@ -56,8 +75,10 @@ if(isset($editar)){
 				$directorio = "../../../Files/$itemID/AUDIO";
 				if(!file_exists($directorio))
 					mkdir($directorio, 0777, true);
-				$uploadfile = $directorio ."/". basename($_FILES['enunciadoAudio']['name']);
-				if (!move_uploaded_file($_FILES['enunciadoAudio']['tmp_name'], $uploadfile))
+				$uploadfile = $directorio ."/". basename
+                ($_FILES['enunciadoAudio']['name']);
+				if (!move_uploaded_file($_FILES['enunciadoAudio']
+                    ['tmp_name'], $uploadfile))
 				{
 					echo "0";
 					die();
@@ -65,7 +86,8 @@ if(isset($editar)){
 			}
 		}
 		
-		$resultado = $objItem -> _GUARDAR_EDITAR($itemID,$nombre, $dificultad, $tipo, $clasificacion, $tEnunciado, $descripcion, $areaC,$enunciado);
+		$resultado = $objItem -> _GUARDAR_EDITAR($itemID,$nombre, $dificultad,
+            $tipo, $clasificacion, $tEnunciado, $descripcion, $areaC,$enunciado);
 		if($resultado == 0)
 		{
 			echo $resultado;
@@ -76,7 +98,8 @@ if(isset($editar)){
 			echo $resultado;
 			die();
 		}
-		$resultado = $objItem -> _GUARDAR_RESPUESTAS_NUEVO($itemID, $respuesta, $acierto, $clasificacion);
+		$resultado = $objItem -> _GUARDAR_RESPUESTAS_NUEVO($itemID, $respuesta,
+            $acierto, $clasificacion);
 		if($resultado > 1)
 		{
 			header("location:../interfaz/interfaz.listado.php");
@@ -91,7 +114,8 @@ if(isset($editar)){
 			if(!file_exists($directorio))
 				mkdir($directorio, 0777, true);
 			$uploadfile = $directorio ."/". basename($_FILES['enunciadoImg']['name']);
-			if (!move_uploaded_file($_FILES['enunciadoImg']['tmp_name'][$i], $uploadfile))
+			if (!move_uploaded_file($_FILES['enunciadoImg']['tmp_name'][$i],
+                $uploadfile))
 			{
 				echo "0";
 				die();
@@ -107,16 +131,18 @@ if(isset($editar)){
 			$directorio = "../../../Files/$itemID/AUDIO";
 			if(!file_exists($directorio))
 				mkdir($directorio, 0777, true);
-			$uploadfile = $directorio ."/". basename($_FILES['enunciadoAudio']['name']);
-			if (!move_uploaded_file($_FILES['enunciadoAudio']['tmp_name'][$i], $uploadfile))
-			{
+			$uploadfile = $directorio ."/". basename($_FILES['enunciadoAudio']
+                ['name']);
+			if (!move_uploaded_file($_FILES['enunciadoAudio']['tmp_name'][$i],
+                $uploadfile)){
 				echo "0";
 				die();
 			}
 		}
 		$descripcionR = array();
 		$descripcionR[] = '';
-		$resultado =  $objItem -> _GUARDAR_EDITAR($itemID,$nombre, $dificultad, $tipo, $clasificacion, $tEnunciado, $descripcion, $areaC, $enunciado);
+		$resultado =  $objItem -> _GUARDAR_EDITAR($itemID,$nombre, $dificultad,
+            $tipo, $clasificacion, $tEnunciado, $descripcion, $areaC, $enunciado);
 		if($objItem -> _ELIMINAR_RESPUESTAS($itemID) == 0)
 		{
 			echo $resultado;
@@ -139,16 +165,17 @@ if(isset($editar)){
 		}
 		if(count($descripcionR)> 1 && count($acierto) > 1)
 		{
-			$resultado = $objItem -> _GUARDAR_RESPUESTAS_NUEVO($itemID, $descripcionR, $acierto, $clasificacion,0);
+			$resultado = $objItem -> _GUARDAR_RESPUESTAS_NUEVO($itemID, 
+                $descripcionR, $acierto, $clasificacion,0);
 			if($resultado == 0)
 			{
 				echo "0";
 				die();
 			}
 		}
-		$resultado = $objItem -> _GUARDAR_RESPUESTAS_NUEVO($itemID, $descripcionRM, $aciertoRM, $clasificacion,1);
-		if($resultado == 1)
-		{
+		$resultado = $objItem -> _GUARDAR_RESPUESTAS_NUEVO($itemID,
+            $descripcionRM, $aciertoRM, $clasificacion,1);
+		if($resultado == 1)	{
 			header("location:../interfaz/interfaz.listado.php");
 		}
 		//print_r($respuesta);
@@ -182,15 +209,18 @@ if(isset($editar)){
 		{
 			$enunciado = basename($_FILES['enunciadoAudio']['name']);
 		}
-		$ITEM_ID = $objItem -> _Guardar_NUEVO($nombre, $dificultad, $tipo, $clasificacion, $tEnunciado, $descripcion, $areaC, $respuesta, $acierto, $enunciado);
-		if($tEnunciado == 1)
-		{
+		$ITEM_ID = $objItem -> _Guardar_NUEVO($nombre, $dificultad, $tipo, 
+            $clasificacion, $tEnunciado, $descripcion, $areaC, $respuesta, 
+            $acierto, $enunciado);
+		
+        if($tEnunciado == 1){
 			$directorio = "../../../Files/$ITEM_ID/IMG";
 			if(!file_exists($directorio))
 				mkdir($directorio, 0777, true);
-			$uploadfile = $directorio ."/". basename($_FILES['enunciadoImg']['name']);
-			if (!move_uploaded_file($_FILES['enunciadoImg']['tmp_name'], $uploadfile))
-			{
+			$uploadfile = $directorio ."/". basename($_FILES['enunciadoImg']
+                ['name']);
+			if (!move_uploaded_file($_FILES['enunciadoImg']['tmp_name'],
+                $uploadfile)){
 				echo "0";
 				die();
 			}
@@ -200,8 +230,10 @@ if(isset($editar)){
 			$directorio = "../../../Files/$ITEM_ID/AUDIO";
 			if(!file_exists($directorio))
 				mkdir($directorio, 0777, true);
-			$uploadfile = $directorio ."/". basename($_FILES['enunciadoAudio']['name']);
-			if (!move_uploaded_file($_FILES['enunciadoAudio']['tmp_name'], $uploadfile))
+			$uploadfile = $directorio ."/". basename($_FILES['enunciadoAudio']
+                ['name']);
+			if (!move_uploaded_file($_FILES['enunciadoAudio']['tmp_name'],
+                $uploadfile))
 			{
 				echo "0";
 				die();
@@ -229,7 +261,8 @@ if(isset($editar)){
 		
 		$descripcionR = array();
 		$descripcionR[] = '';
-		$ITEM_ID =  $objItem -> _Guardar_NUEVO_W_FILES($nombre, $dificultad, $tipo, $clasificacion, $tEnunciado, $descripcion, $areaC,$enunciado);
+		$ITEM_ID =  $objItem -> _Guardar_NUEVO_W_FILES($nombre, $dificultad, $tipo,
+            $clasificacion, $tEnunciado, $descripcion, $areaC,$enunciado);
 		if($tEnunciado == 1)
 		{
 			$directorio = "../../../Files/$ITEM_ID/IMG";
@@ -269,12 +302,14 @@ if(isset($editar)){
 				die();
 			}
 		}
-		$resultado = $objItem -> _GUARDAR_RESPUESTAS_NUEVO($ITEM_ID, $descripcionR, $acierto, $clasificacion);
-		if($resultado > 0)
-		{
+		$resultado = $objItem -> _GUARDAR_RESPUESTAS_NUEVO($ITEM_ID, $descripcionR, 
+            $acierto, $clasificacion);
+		if($resultado > 0){
 			header("location:../interfaz/interfaz.listado.php");
 		}
 		//print_r($respuesta);
 	}
 }
 ?>
+
+<!--//********************************************************************//-->

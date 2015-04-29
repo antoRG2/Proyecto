@@ -1,3 +1,16 @@
+<!--//***********************************************************************//   
+//                                                                           //
+//                                                                           //       
+//                                                                           //  
+//                                                                           //
+//                                                                           //
+//                                                                           //
+//                                                                           //
+//                                                                           //   
+//                                                                           //
+//************************************************************************//-->
+
+
 <?php
 class Item {
 	//Atributos para la conección a la base de datos
@@ -28,7 +41,8 @@ class Item {
 	protected $contador = 0;
 	
 	/*
-	 * Constructor de la clase el cual se encarga de establecer la conección con la base de datos directamente
+	 * Constructor de la clase el cual se encarga de establecer la conección con 
+     * la base de datos directamente
 	 */
 	function __construct() {
 		require_once  '../../../DB/class.DB.php';
@@ -52,7 +66,8 @@ class Item {
 				FROM
 				    sysdatabase.tbl_item
 				        INNER JOIN
-				    sysdatabase.tbl_areaconocimiento ON sysdatabase.tbl_item.areaconocimiento_id = sysdatabase.tbl_areaconocimiento.id
+				    sysdatabase.tbl_areaconocimiento ON sysdatabase.
+                    tbl_item.areaconocimiento_id = sysdatabase.tbl_areaconocimiento.id
 				WHERE
 				    sysdatabase.tbl_item.id {$this -> id}
 				    AND sysdatabase.tbl_item.dificultad {$this -> dificultad}
@@ -97,7 +112,8 @@ class Item {
 				FROM
 				    sysdatabase.tbl_item
 				        INNER JOIN
-				    sysdatabase.tbl_areaconocimiento ON sysdatabase.tbl_item.areaconocimiento_id = sysdatabase.tbl_areaconocimiento.id
+				    sysdatabase.tbl_areaconocimiento ON sysdatabase.
+                    tbl_item.areaconocimiento_id = sysdatabase.tbl_areaconocimiento.id
 				WHERE
 				    (sysdatabase.tbl_item.id NOT IN (SELECT 
 				            sysdatabase.tbl_configuracion_item.item_id
@@ -217,9 +233,12 @@ class Item {
 		if ($int < $this -> contador) {
 			switch($FORMAT) {
 				case "HTML" :
-					return htmlentities($this -> Nombre[$int], (int)$this -> flag, "Windows-1252", true);
+					return htmlentities($this -> Nombre[$int], (int)$this ->
+                        flag, "Windows-1252", true);
 				case "INPUT" :
-					return htmlspecialchars_decode(htmlspecialchars(htmlentities($this -> Nombre[$int], (int)$this -> flag, "Windows-1252", true)), ENT_NOQUOTES);
+					return htmlspecialchars_decode(htmlspecialchars(htmlentities
+                    ($this -> Nombre[$int], (int)$this -> flag, "Windows-1252", 
+                    true)), ENT_NOQUOTES);
 				default :
 					return $this -> Nombre[$int];
 			}
@@ -250,9 +269,11 @@ class Item {
 		if ($int < $this -> contador) {
 			switch($FORMAT) {
 				case "HTML" :
-					return htmlentities($this -> Enunciado[$int], (int)$this -> flag, "Windows-1252", true);
+					return htmlentities($this -> Enunciado[$int], (int)$this ->
+                        flag, "Windows-1252", true);
 				case "INPUT" :
-					return htmlspecialchars_decode(htmlspecialchars(htmlentities($this -> Enunciado[$int], (int)$this -> flag, "Windows-1252", true)), ENT_NOQUOTES);
+					return htmlspecialchars_decode(htmlspecialchars(htmlentities
+                    ($this -> Enunciado[$int], (int)$this -> flag, "Windows-1252", true)), ENT_NOQUOTES);
 				default :
 					return $this -> Enunciado[$int];
 			}
@@ -263,9 +284,12 @@ class Item {
 		if ($int < $this -> contador) {
 			switch($FORMAT) {
 				case "HTML" :
-					return htmlentities($this -> Descripcion[$int], (int)$this -> flag, "Windows-1252", true);
+					return htmlentities($this -> Descripcion[$int], (int)$this ->
+                        flag, "Windows-1252", true);
 				case "INPUT" :
-					return htmlspecialchars_decode(htmlspecialchars(htmlentities($this -> Descripcion[$int], (int)$this -> flag, "Windows-1252", true)), ENT_NOQUOTES);
+					return htmlspecialchars_decode(htmlspecialchars(htmlentities
+                    ($this -> Descripcion[$int], (int)$this -> flag, 
+                    "Windows-1252", true)), ENT_NOQUOTES);
 				default :
 					return $this -> Descripcion[$int];
 			}
@@ -281,9 +305,12 @@ class Item {
 		if ($int < $this -> contador) {
 			switch($FORMAT) {
 				case "HTML" :
-					return htmlentities($this -> areaconocimiento[$int], (int)$this -> flag, "Windows-1252", true);
+					return htmlentities($this -> areaconocimiento[$int], 
+                        (int)$this -> flag, "Windows-1252", true);
 				case "INPUT" :
-					return htmlspecialchars_decode(htmlspecialchars(htmlentities($this -> areaconocimiento[$int], (int)$this -> flag, "Windows-1252", true)), ENT_NOQUOTES);
+					return htmlspecialchars_decode(htmlspecialchars(htmlentities
+                    ($this -> areaconocimiento[$int], (int)$this -> flag,
+                    "Windows-1252", true)), ENT_NOQUOTES);
 				default :
 					return $this -> areaconocimiento[$int];
 			}
@@ -336,30 +363,37 @@ class Item {
 		}
 	}
 		
-	public function _Guardar_NUEVO($nombre, $dificultad, $tipo, $clasificacion, $tEnunciado, $descripcion, $areaC, $respuesta, $acierto,$enunciado){
+	public function _Guardar_NUEVO($nombre, $dificultad, $tipo, $clasificacion,
+        $tEnunciado, $descripcion, $areaC, $respuesta, $acierto,$enunciado){
 		
 		$nombre = $this->_FREE($nombre);
 		$descripcion = $this->_FREE($descripcion);
 		$enunciado = $this->_FREE($enunciado);
 		
-		$SQL = "INSERT INTO sysdatabase.tbl_item(nombre,dificultad,tipo, clasificacion,tipoenunciado,descripcion,areaconocimiento_id,enunciado) ";
-		$SQL .= "VALUES('$nombre',$dificultad,$tipo,$clasificacion,$tEnunciado,'$descripcion',$areaC,'$enunciado'); ";
+		$SQL = "INSERT INTO sysdatabase.tbl_item(nombre,dificultad,tipo, 
+        clasificacion,tipoenunciado,descripcion,areaconocimiento_id,enunciado) ";
+		$SQL .= "VALUES('$nombre',$dificultad,$tipo,$clasificacion,$tEnunciado,
+        '$descripcion',$areaC,'$enunciado'); ";
 		
 		$result = mysqli_query($this->dbh, $SQL);
 		if($result)
-			return $this -> _GUARDAR_RESPUESTAS_NUEVO(mysqli_insert_id($this->dbh), $respuesta, $acierto,$clasificacion);
+			return $this -> _GUARDAR_RESPUESTAS_NUEVO(mysqli_insert_id($this->dbh),
+            $respuesta, $acierto,$clasificacion);
 		else
 			return '0';
 	}
 	
-	public function _Guardar_NUEVO_W_FILES($nombre, $dificultad, $tipo, $clasificacion, $tEnunciado, $descripcion, $areaC,$enunciado){
+	public function _Guardar_NUEVO_W_FILES($nombre, $dificultad, $tipo, 
+        $clasificacion, $tEnunciado, $descripcion, $areaC,$enunciado){
 		
 		$nombre = $this->_FREE($nombre);
 		$descripcion = $this->_FREE($descripcion);
 		$enunciado = $this->_FREE($enunciado);
 		
-		$SQL = "INSERT INTO sysdatabase.tbl_item(nombre,dificultad,tipo, clasificacion,tipoenunciado,descripcion,areaconocimiento_id,enunciado) ";
-		$SQL .= "VALUES('$nombre',$dificultad,$tipo,$clasificacion,$tEnunciado,'$descripcion',$areaC,'$enunciado'); ";
+		$SQL = "INSERT INTO sysdatabase.tbl_item(nombre,dificultad,tipo, 
+        clasificacion,tipoenunciado,descripcion,areaconocimiento_id,enunciado) ";
+		$SQL .= "VALUES('$nombre',$dificultad,$tipo,$clasificacion,$tEnunciado,
+        '$descripcion',$areaC,'$enunciado'); ";
 		
 		$result = mysqli_query($this->dbh, $SQL);
 		if($result)
@@ -368,12 +402,16 @@ class Item {
 			return '0';
 	}
 	
-	public function _GUARDAR_EDITAR($itemID,$nombre, $dificultad, $tipo, $clasificacion, $tEnunciado, $descripcion, $areaC,$enunciado){
+	public function _GUARDAR_EDITAR($itemID,$nombre, $dificultad, $tipo,
+        $clasificacion, $tEnunciado, $descripcion, $areaC,$enunciado){
 		
 		$nombre = $this->_FREE($nombre);
 		$descripcion = $this->_FREE($descripcion);
 		$enunciado = $this->_FREE($enunciado);
-		$SQL = "UPDATE sysdatabase.tbl_item SET nombre = '$nombre',dificultad = $dificultad,tipo = $tipo, clasificacion = $clasificacion,tipoenunciado = $tEnunciado,descripcion = '$descripcion',areaconocimiento_id = $areaC, enunciado = '$enunciado'";
+		$SQL = "UPDATE sysdatabase.tbl_item SET nombre = '$nombre',dificultad = 
+        $dificultad,tipo = $tipo, clasificacion = $clasificacion,tipoenunciado = 
+        $tEnunciado,descripcion = '$descripcion',areaconocimiento_id = $areaC,
+        enunciado = '$enunciado'";
 		$SQL .= " WHERE id = $itemID; ";
 		
 		$result = mysqli_query($this->dbh, $SQL);
@@ -383,23 +421,29 @@ class Item {
 			return 0;
 	}
 	
-	public function _GUARDAR_RESPUESTAS_NUEVO($itemID, $respuesta, $acierto,$clasificacion,$modificar = 0){
+	public function _GUARDAR_RESPUESTAS_NUEVO($itemID, $respuesta, $acierto,
+        $clasificacion,$modificar = 0){
 		if($modificar == 0)	
 		{
-			$value = "VALUES($itemID,".$acierto[1].",$clasificacion,'".$this -> _FREE($respuesta[1])."')";	
+			$value = "VALUES($itemID,".$acierto[1].",$clasificacion,'".
+                $this -> _FREE($respuesta[1])."')";	
 			for($i = 2; $i < count($respuesta); $i++)
 			{
-				$value .= ",($itemID,".$acierto[$i].",$clasificacion,'".$this -> _FREE($respuesta[$i])."')";
+				$value .= ",($itemID,".$acierto[$i].",$clasificacion,'".$this ->
+                    _FREE($respuesta[$i])."')";
 			}
 		}
 		else{
-			$value = "VALUES($itemID,".$acierto[0].",$clasificacion,'".$this -> _FREE($respuesta[0])."')";	
+			$value = "VALUES($itemID,".$acierto[0].",$clasificacion,'".$this ->
+                _FREE($respuesta[0])."')";	
 			for($i = 1; $i < count($respuesta); $i++)
 			{
-				$value .= ",($itemID,".$acierto[$i].",$clasificacion,'".$this -> _FREE($respuesta[$i])."')";
+				$value .= ",($itemID,".$acierto[$i].",$clasificacion,'".$this ->
+                    _FREE($respuesta[$i])."')";
 			}
 		}
-		$SQL = "INSERT INTO sysdatabase.tbl_respuestas (item_id, acierto, tipo, descripcion) ";
+		$SQL = "INSERT INTO sysdatabase.tbl_respuestas (item_id, acierto, tipo, 
+        descripcion) ";
 		$SQL .= "$value;";
 		$result = mysqli_query($this->dbh, $SQL);
 		if($result)
@@ -437,7 +481,8 @@ class Item {
 	    if (!is_dir($dir)) return unlink($dir);
 	    foreach (scandir($dir) as $item) {
 	        if ($item == '.' || $item == '..') continue;
-	        if (!$this -> _Delete_DIRECTORY($dir.DIRECTORY_SEPARATOR.$item)) return false;
+	        if (!$this -> _Delete_DIRECTORY($dir.DIRECTORY_SEPARATOR.$item)) 
+                return false;
 	    }
 	    return rmdir($dir);
 	}
@@ -452,3 +497,5 @@ class Item {
 
 }
 ?>
+
+<!--//********************************************************************//-->
